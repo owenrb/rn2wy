@@ -4,15 +4,24 @@
   "license": "MIT",
   "author": "owenrbee@gmail.com",
   "scripts": {
-    "android": "react-native run-android",
+    "replace-maven": "sed -i.bak \"s|apply plugin: 'maven'.*|apply plugin: 'maven-publish'|g\" node_modules/react-native-sms-receiver/android/build.gradle",
+    "reset-override": "sed -i.bak 's|afterEvaluate { project -> return true;.*|afterEvaluate { project ->|g' node_modules/react-native-sms-receiver/android/build.gradle",
+    "override": "sed -i.bak 's|afterEvaluate { project ->.*|afterEvaluate { project ->  return true;|g' node_modules/react-native-sms-receiver/android/build.gradle",
+    "android": "npm run replace-maven && npm run reset-override && npm run override && react-native run-android",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
+    "@react-navigation/bottom-tabs": "^6.5.8",
+    "@react-navigation/native": "^6.1.7",
     "react": "18.2.0",
     "react-native": "0.72.3",
-    "react-native-sms-receiver": "^1.0.0"
+    "react-native-paper": "^5.10.0",
+    "react-native-safe-area-context": "^4.7.1",
+    "react-native-screens": "^3.24.0",
+    "react-native-sms-receiver": "^1.0.0",
+    "react-native-vector-icons": "^10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

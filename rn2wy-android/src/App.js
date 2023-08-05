@@ -10,7 +10,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Button,
   NativeModules,
   PermissionsAndroid,
 } from 'react-native'
@@ -18,6 +17,15 @@ import {
   requestReadSMSPermission,
   startReadSMS,
 } from 'react-native-sms-receiver/Receiver'
+import {Button} from 'react-native-paper'
+import {NavigationContainer} from '@react-navigation/native'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import InboundScreen from './screen/inbound.screen'
+import OutboundScreen from './screen/outbound.screen'
+import SettingScreen from './screen/settings.screen'
+
+const Tab = createBottomTabNavigator()
 
 const DirectSms = NativeModules.DirectSms
 
@@ -73,11 +81,48 @@ const App = () => {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <Button title="Send" onPress={() => sendSample()} />
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Inbound"
+          component={InboundScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons
+                name="inbox-arrow-down"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Outbound"
+          component={OutboundScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons
+                name="inbox-arrow-up"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons name="cog" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   )
 }
 
